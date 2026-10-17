@@ -94,7 +94,7 @@ int selinux_policycap_alwaysnetwork;
 int selinux_policycap_cgroupseclabel;
 int selinux_policycap_nnp_nosuid_transition;
 
-static DEFINE_RWLOCK(policy_rwlock);
+DEFINE_RWLOCK(policy_rwlock);
 
 static struct sidtab sidtab;
 struct policydb policydb;
