@@ -46,7 +46,7 @@ jobs:
           sudo apt install -y ./libtinfo5.deb
 
       - name: Patch KernelSU/kernel/tools/susfs_compat.mk
-        run: git -C KernelSU apply ../ksu-fix.patch
+        run: git -C KernelSU apply ../ksu-susfs-fix.patch
 
       - name: Build kernel
         run: |
