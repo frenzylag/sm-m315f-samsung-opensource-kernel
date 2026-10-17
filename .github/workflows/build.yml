@@ -1,0 +1,54 @@
+name: Build Samsung M31 Kernel
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            bc bison build-essential flex \
+            libssl-dev libelf-dev \
+            python3 git wget tar zip unzip \
+            device-tree-compiler
+
+      - name: Download Clang
+        run: |
+          wget 'https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/android-9.0.0_r6/clang-4639204.tar.gz' \
+            -O clang.tar.gz
+          mkdir -p toolchain/clang/host/linux-x86/clang-4639204
+          tar -xf clang.tar.gz \
+            -C toolchain/clang/host/linux-x86/clang-4639204
+
+      - name: Download GCC toolchain
+        run: |
+          git clone --depth=1 -b pie-release \
+            https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 \
+            toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9
+
+      - name: Build kernel
+        run: |
+          chmod +x build_kernel.sh
+          bash build_kernel.sh
+
+      - name: Upload kernel artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: m31-kernel-build
+          path: |
+            out/arch/arm64/boot/Image
+            out/arch/arm64/boot/Image.gz
+            out/arch/arm64/boot/dtbo.img
+            out/arch/arm64/boot/dts/
+          if-no-files-found: warn
