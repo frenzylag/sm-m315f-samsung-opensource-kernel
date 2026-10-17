@@ -1,0 +1,16 @@
+diff --git a/kernel/tools/susfs_compat.mk b/kernel/tools/susfs_compat.mk
+index 9a70255d..5dae38aa 100644
+--- a/kernel/tools/susfs_compat.mk
++++ b/kernel/tools/susfs_compat.mk
+@@ -15,6 +15,7 @@ $(info -- $(REPO_NAME)/compat: ksu_install_su_fd direct call found)
+ ccflags-y += -DKSU_COMPAT_HAS_SUSFS_INSTALL_SU_FD_DIRECT_CALL
+ endif
+ 
+-$(info -- $(REPO_NAME): susfs has NOT update with latest KernelSU source)
+-$(info -- $(REPO_NAME): Please wait simonpunk update)
+-$(error Please wait susfs update.)
+\ No newline at end of file
++# Commented by frenzylag: how i understand, we dont need it on 4.14
++# $(info -- $(REPO_NAME): susfs has NOT update with latest KernelSU source)
++# $(info -- $(REPO_NAME): Please wait simonpunk update)
++# $(error Please wait susfs update.)
