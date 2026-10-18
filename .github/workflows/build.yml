@@ -25,19 +25,31 @@ jobs:
             python3 git wget tar zip unzip \
             device-tree-compiler
 
+      - name: Cache toolchains
+        id: tc-cache
+        uses: actions/cache@v4
+        with:
+          path: toolchain
+          key: toolchain-clang4639204-gcc49-pie-v1
+
       - name: Download Clang
+        if: steps.tc-cache.outputs.cache-hit != 'true'
         run: |
-          wget 'https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/android-9.0.0_r6/clang-4639204.tar.gz' \
+          wget -q 'https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/android-9.0.0_r6/clang-4639204.tar.gz' \
             -O clang.tar.gz
           mkdir -p toolchain/clang/host/linux-x86/clang-4639204
           tar -xf clang.tar.gz \
             -C toolchain/clang/host/linux-x86/clang-4639204
+          rm clang.tar.gz
 
       - name: Download GCC toolchain
+        if: steps.tc-cache.outputs.cache-hit != 'true'
         run: |
           git clone --depth=1 -b pie-release \
             https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 \
             toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9
+          rm -rf toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/.git
+
 
       - name: Install libtinfo5
         run: |
