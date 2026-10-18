@@ -115,7 +115,7 @@ static void inotify_fdinfo(struct seq_file *m, struct fsnotify_mark *mark)
                                susfs_sus_kstat_spoof_inotify_fdinfo(&ino, &dev);
                                seq_printf(m, "inotify wd:%x ino:%lx sdev:%x mask:%x ignored_mask:0 ",
                                             inode_mark->wd, ino, dev,
-                                            inotify_mark_user_mask(mark));
+                                            (mark->mask & IN_ALL_EVENTS));
                                show_mark_fhandle(m, inode);
                                seq_putc(m, '\n');
                                iput(inode);
@@ -145,7 +145,7 @@ static void inotify_fdinfo(struct seq_file *m, struct fsnotify_mark *mark)
                                }
                                seq_printf(m, "inotify wd:%x ino:%lx sdev:%x mask:%x ignored_mask:0 ",
                                             inode_mark->wd, d_backing_inode(path.dentry)->i_ino, d_backing_inode(path.dentry)->i_sb->s_dev,
-                                            inotify_mark_user_mask(mark));
+                                            (mark->mask & IN_ALL_EVENTS));
                                show_mark_fhandle(m, d_backing_inode(path.dentry));
                                seq_putc(m, '\n');
                                path_put(&path);
@@ -159,6 +159,7 @@ out_kfree:
                        }
                }
 orig_flow:
+		;
 #endif // #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
 		/*
 		 * IN_ALL_EVENTS represents all of the mask bits
