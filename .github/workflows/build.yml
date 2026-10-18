@@ -65,13 +65,15 @@ jobs:
           chmod +x build_kernel.sh
           bash build_kernel.sh
 
-      - name: Upload kernel artifacts
+      - name: Create flashable ZIP
+        run: |
+          cp out/arch/arm64/boot/Image AnyKernel3
+          cd AnyKernel3
+          zip -r ../Frenzy-Kernel-SM-M315F.zip .
+          cd ..
+
+      - name: Upload flashable ZIP
         uses: actions/upload-artifact@v4
         with:
-          name: m31-kernel-build
-          path: |
-            out/arch/arm64/boot/Image
-            out/arch/arm64/boot/Image.gz
-            out/arch/arm64/boot/dtbo.img
-            out/arch/arm64/boot/dts/
-          if-no-files-found: warn
+          name: Frenzy-Kernel-SM-M315F
+          path: Frenzy-Kernel-SM-M315F.zip
