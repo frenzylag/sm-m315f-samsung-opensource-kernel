@@ -75,5 +75,5 @@ jobs:
       - name: Upload flashable ZIP
         uses: actions/upload-artifact@v4
         with:
-          name: Frenzy-Kernel-SM-M315F
+          name: unpackme
           path: Frenzy-Kernel-SM-M315F.zip
