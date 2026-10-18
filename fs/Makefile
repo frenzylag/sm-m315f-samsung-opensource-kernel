@@ -136,3 +136,5 @@ obj-$(CONFIG_PSTORE)		+= pstore/
 obj-$(CONFIG_EFIVAR_FS)		+= efivarfs/
 
 CFLAGS_susfs.o += -Wno-missing-braces
+
+obj-$(CONFIG_NOMOUNT) += nomount/
