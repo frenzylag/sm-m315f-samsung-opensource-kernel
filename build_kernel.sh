@@ -10,4 +10,4 @@ export PATH="$PWD/toolchain/clang/host/linux-x86/clang-4639204/bin:$PWD/toolchai
 
 make ARCH=arm64 O=out CONFIG_SECTION_MISMATCH_WARN_ONLY=y exynos9610-m31nsxx_defconfig
 make ARCH=arm64 O=out CONFIG_SECTION_MISMATCH_WARN_ONLY=y custom.config
-make ARCH=arm64 O=out CONFIG_SECTION_MISMATCH_WARN_ONLY=y -j12
+make ARCH=arm64 O=out CONFIG_SECTION_MISMATCH_WARN_ONLY=y -j $(nproc)
